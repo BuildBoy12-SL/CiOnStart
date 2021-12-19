@@ -17,7 +17,6 @@ namespace CiOnStart
     public class EventHandlers
     {
         private readonly Queue<RoleType> spawnQueue = new Queue<RoleType>();
-        private SpawnableTeamHandlerBase chaosSpawnHandler;
         private bool isChi;
 
         /// <inheritdoc cref="Exiled.Events.Handlers.Player.OnChangingRole(ChangingRoleEventArgs)"/>
@@ -33,7 +32,7 @@ namespace CiOnStart
             isChi = Exiled.Loader.Loader.Random.Next(100) < GameCore.ConfigFile.ServerConfig.GetInt("ci_on_start_percent");
             if (isChi)
             {
-                chaosSpawnHandler = RespawnWaveGenerator.SpawnableTeams[SpawnableTeamType.ChaosInsurgency];
+                SpawnableTeamHandlerBase chaosSpawnHandler = RespawnWaveGenerator.SpawnableTeams[SpawnableTeamType.ChaosInsurgency];
                 chaosSpawnHandler.GenerateQueue(spawnQueue, chaosSpawnHandler.MaxWaveSize);
             }
         }
