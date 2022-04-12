@@ -16,8 +16,15 @@ namespace CiOnStart
     /// </summary>
     public class EventHandlers
     {
+        private readonly Plugin plugin;
         private readonly Queue<RoleType> spawnQueue = new Queue<RoleType>();
         private bool isChi;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EventHandlers"/> class.
+        /// </summary>
+        /// <param name="plugin">An instance of the <see cref="Plugin"/> class.</param>
+        public EventHandlers(Plugin plugin) => this.plugin = plugin;
 
         /// <inheritdoc cref="Exiled.Events.Handlers.Player.OnChangingRole(ChangingRoleEventArgs)"/>
         public void OnChangingRole(ChangingRoleEventArgs ev)
@@ -29,7 +36,7 @@ namespace CiOnStart
         /// <inheritdoc cref="Exiled.Events.Handlers.Server.OnWaitingForPlayers()"/>
         public void OnWaitingForPlayers()
         {
-            isChi = Exiled.Loader.Loader.Random.Next(100) < GameCore.ConfigFile.ServerConfig.GetInt("ci_on_start_percent");
+            isChi = Exiled.Loader.Loader.Random.Next(100) < plugin.Config.CiChance;
             if (isChi)
             {
                 SpawnableTeamHandlerBase chaosSpawnHandler = RespawnWaveGenerator.SpawnableTeams[SpawnableTeamType.ChaosInsurgency];

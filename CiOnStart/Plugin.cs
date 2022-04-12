@@ -8,6 +8,7 @@
 namespace CiOnStart
 {
     using System;
+    using Exiled.API.Enums;
     using Exiled.API.Features;
 
     /// <summary>
@@ -21,15 +22,18 @@ namespace CiOnStart
         public override string Author => "Build";
 
         /// <inheritdoc />
-        public override Version RequiredExiledVersion { get; } = new Version(5, 0, 0);
+        public override PluginPriority Priority => PluginPriority.Higher;
 
         /// <inheritdoc />
-        public override Version Version { get; } = new Version(1, 0, 0);
+        public override Version RequiredExiledVersion { get; } = new Version(5, 1, 0);
+
+        /// <inheritdoc />
+        public override Version Version { get; } = new Version(1, 0, 1);
 
         /// <inheritdoc />
         public override void OnEnabled()
         {
-            eventHandlers = new EventHandlers();
+            eventHandlers = new EventHandlers(this);
             Exiled.Events.Handlers.Player.ChangingRole += eventHandlers.OnChangingRole;
             Exiled.Events.Handlers.Server.WaitingForPlayers += eventHandlers.OnWaitingForPlayers;
             base.OnEnabled();
