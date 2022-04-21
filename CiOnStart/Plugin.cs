@@ -25,10 +25,10 @@ namespace CiOnStart
         public override PluginPriority Priority => PluginPriority.Higher;
 
         /// <inheritdoc />
-        public override Version RequiredExiledVersion { get; } = new Version(5, 1, 0);
+        public override Version RequiredExiledVersion { get; } = new Version(5, 1, 3);
 
         /// <inheritdoc />
-        public override Version Version { get; } = new Version(1, 0, 1);
+        public override Version Version { get; } = new Version(1, 0, 2);
 
         /// <inheritdoc />
         public override void OnEnabled()
