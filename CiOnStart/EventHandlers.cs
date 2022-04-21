@@ -9,6 +9,8 @@ namespace CiOnStart
 {
     using System.Collections.Generic;
     using Exiled.Events.EventArgs;
+    using InventorySystem;
+    using MonoMod.Utils;
     using Respawning;
 
     /// <summary>
@@ -29,8 +31,18 @@ namespace CiOnStart
         /// <inheritdoc cref="Exiled.Events.Handlers.Player.OnChangingRole(ChangingRoleEventArgs)"/>
         public void OnChangingRole(ChangingRoleEventArgs ev)
         {
-            if (isChi && ev.NewRole == RoleType.FacilityGuard)
-                ev.NewRole = spawnQueue.Dequeue();
+            if (!isChi || ev.NewRole != RoleType.FacilityGuard)
+                return;
+
+            ev.NewRole = spawnQueue.Dequeue();
+            if (!InventorySystem.Configs.StartingInventories.DefinedInventories.TryGetValue(ev.NewRole, out InventoryRoleInfo inventoryRoleInfo))
+                return;
+
+            ev.Items.Clear();
+            ev.Ammo.Clear();
+
+            ev.Items.AddRange(inventoryRoleInfo.Items);
+            ev.Ammo.AddRange(inventoryRoleInfo.Ammo);
         }
 
         /// <inheritdoc cref="Exiled.Events.Handlers.Server.OnWaitingForPlayers()"/>
